@@ -22,3 +22,10 @@ class User(BaseModel):
 
     class Config:
         orm_mode = True
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()

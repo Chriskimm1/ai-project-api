@@ -1,19 +1,18 @@
 from fastapi import APIRouter, HTTPException, Depends
 from typing import List
 from sqlalchemy.orm import Session
-from app.models.user import UserDB, User, SessionLocal
+from app.models.user import UserDB, User, get_db
 
 router = APIRouter()
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
 @router.post("/users/", response_model=User)
 def create_user(user: User, db: Session = Depends(get_db)):
+    # Check for duplicate id
+    if db.query(UserDB).filter(UserDB.id == user.id).first():
+        raise HTTPException(status_code=400, detail="User with this id already exists")
+    # Check for duplicate email
+    if db.query(UserDB).filter(UserDB.email == user.email).first():
+        raise HTTPException(status_code=400, detail="User with this email already exists")
     db_user = UserDB(id=user.id, name=user.name, email=user.email)
     db.add(db_user)
     db.commit()
