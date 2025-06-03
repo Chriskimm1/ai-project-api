@@ -1,58 +1,34 @@
 # ai-project
 
-This is a FastAPI project named "ai-project" that provides a simple API for user management.
+This is a FastAPI application.
 
-## Project Structure
+## Getting Started
 
-```
-ai-project
-├── app
-│   ├── main.py          # Entry point of the FastAPI application
-│   ├── api
-│   │   └── users.py     # User-related API endpoints
-│   └── models
-│       └── user.py      # User model definition
-├── requirements.txt      # Project dependencies
-└── README.md             # Project documentation
-```
+### Prerequisites
+- Docker installed on your machine
 
-## Setup Instructions
+### Build and Run with Docker
 
-1. Clone the repository:
-   ```
-   git clone <repository-url>
-   cd ai-project
+1. Build the Docker image:
+   ```sh
+   docker build -t ai-project .
    ```
 
-2. Create a virtual environment:
-   ```
-   python -m venv venv
-   ```
-
-3. Activate the virtual environment:
-   - On Windows:
-     ```
-     venv\Scripts\activate
-     ```
-   - On macOS/Linux:
-     ```
-     source venv/bin/activate
-     ```
-
-4. Install the required dependencies:
-   ```
-   pip install -r requirements.txt
+2. Run the Docker container:
+   ```sh
+   docker run -p 8000:8000 ai-project
    ```
 
-## Usage
+3. Access the API at: [http://localhost:8000](http://localhost:8000)
 
-To run the FastAPI application, execute the following command:
+### Project Structure
+- `app/` - Main application code
+- `requirements.txt` - Python dependencies
+- `Dockerfile` - Docker configuration
 
-```
-uvicorn app.main:app --reload
-```
+---
 
-You can access the API documentation at `http://127.0.0.1:8000/docs`.
+For development without Docker, install dependencies with `pip install -r requirements.txt` and run with `uvicorn app.main:app --reload`.
 
 ## Endpoints
 
