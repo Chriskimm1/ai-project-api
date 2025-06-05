@@ -61,7 +61,3 @@ This is a FastAPI application with user management and authentication.
 - Internal database IDs (`internal_id`) are not exposed in API responses.
 - User IDs are UUID strings for public use.
 - Requires `passlib[bcrypt]` and `python-multipart` for authentication support.
-
-## License
-
-This project is licensed under the MIT License.
