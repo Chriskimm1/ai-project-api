@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from typing import List
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 from app.models.user import UserDB, User, get_db
 
 router = APIRouter()
@@ -39,9 +40,13 @@ def update_user(user_id: int, user: User, db: Session = Depends(get_db)):
     db_user.id = user.id
     db_user.name = user.name
     db_user.email = user.email
-    db.commit()
-    db.refresh(db_user)
-    return db_user
+    try:
+        db.commit()
+        db.refresh(db_user)
+        return db_user
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(status_code=400, detail="Integrity error: duplicate id or email")
 
 @router.delete("/users/{user_id}")
 def delete_user(user_id: int, db: Session = Depends(get_db)):
